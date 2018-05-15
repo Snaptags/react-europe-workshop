@@ -3,10 +3,23 @@ import ReactDOM from "react-dom";
 
 import "./portal-app.css";
 
-export class RegularModal extends Component {
-  render() {
-    return <div className="regularModal">Hi I'm a regular modal!!</div>;
-  }
+export class PortalModal extends Component {
+    constructor() {
+        super();
+
+        this.portalElement = document.createElement("div");
+    }
+
+    componentDidMount() {
+        document.body.appendChild(this.portalElement);
+    }
+    componentWillUnmeint() {
+        document.body.removeChild(this.portalElement);
+    }
+
+    render() {
+        return ReactDOM.createPortal(<div className="regularModal">Hi I'm a regular modal!!</div>, this.portalElement)
+    }
 }
 
 export class PortalApp extends Component {
@@ -33,7 +46,7 @@ export class PortalApp extends Component {
             <button className="settingsButton" onClick={this.toggleModal}>
               settings
             </button>
-            {this.state.isModalOpen ? <RegularModal /> : null}
+            {this.state.isModalOpen ? <PortalModal /> : null}
           </div>
           <p>Portals are great!</p>
           <p>Here is some more content about portals</p>
