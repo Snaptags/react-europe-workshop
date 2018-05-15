@@ -19,7 +19,14 @@ export class PortalModal extends Component {
 
     render() {
         const { coordinates } = this.props;
-        return ReactDOM.createPortal(<div className="regularModal" style={{ left: `${coordinates.x}px, top:${coordinates.y}px`}}>Hi I'm a regular modal!!</div>, this.portalElement)
+        return ReactDOM.createPortal(
+            <div
+                className="portalModal"
+                style={{ left: `${coordinates.x}px`, top: `${coordinates.y}px` }}
+            >
+                Hi I'm a regular modal!!
+            </div>,
+            this.portalElement);
     }
 }
 
@@ -58,7 +65,7 @@ export class PortalApp extends Component {
             <div className="pageWrapper">
                 <div className={`containerDiv lightTheme`}>
                     <h1>Portals!!!!</h1>
-                    <div className="settingsButtonWrapper" ref={el=> {this.buttonWrapper}}>
+                    <div className="settingsButtonWrapper" ref={el=> {this.buttonWrapper = el}}>
                         <button className="settingsButton" onClick={this.toggleModal}>
                             settings
                         </button>
