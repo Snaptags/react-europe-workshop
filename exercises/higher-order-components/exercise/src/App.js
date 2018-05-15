@@ -28,7 +28,10 @@ import "./App.css";
 // Uncomment if you're hitting the stretch goal
 // import throttle from 'lodash.throttle'
 
-class App extends Component {
+function withScreenDimensions(
+    WrappedComponent
+) {
+class ScreenDimensions extends Component {
   state = {
     width: window.innerWidth,
     height: window.innerHeight
@@ -48,9 +51,22 @@ class App extends Component {
       height: window.innerHeight
     });
   };
+        render() {
+            return (
+                <WrappedComponent
+                    {...this.state}
+                />
+            );
+        }
+    }
+    return ScreenDimensions;
+};
+
+const App = withScreenDimensions (
+    class App extends Component {
 
   render() {
-    const { width, height } = this.state;
+    const { width, height } = this.props;
     return (
       <div className="App">
         <h1>
@@ -60,5 +76,6 @@ class App extends Component {
     );
   }
 }
+);
 
 export default App;
