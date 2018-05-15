@@ -46,12 +46,31 @@ const steps = [
   },
 ];
 
-const App = () => (
-  <Stepper steps={steps}>
-    <Stepper.Status />
-    <Stepper.ActiveStep />
-    <Stepper.Controls />
-  </Stepper>
-);
+export default class App extends React.Component {
+    state = {
+        stepIndex: 0,
+        canMoveForward: true,
+        canMoveBack: false,
+    };
+    onStepChange = value => {
+        this.setState({
+            stepIndex: value,
+        });
+    }
+    canMoveForward = index => {
+        return index <= steps.length;
+    }
+    render() {
+        return (
+            <Stepper
+                steps={steps}
+                stepIndex={this.state.stepIndex}
+                onChange={this.onStepChange}
+            >
+                <Stepper.Status />
+                <Stepper.ActiveStep />
+                <Stepper.Controls />
+            </Stepper>
+        )}
+};
 
-export default App;
