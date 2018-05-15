@@ -125,7 +125,7 @@ export default class Stepper extends Component {
   render() {
     return (
       <div className="stepper">
-        <StepContext.Provider value={this.getContext()}>
+          <StepContext.Provider value={this.getContext()}> // the whole content of value will be available to ALL consumers
           {this.props.children}
         </StepContext.Provider>
       </div>
