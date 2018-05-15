@@ -39,15 +39,6 @@ export class Online extends Component {
 }
 
 export class Offline extends Component {
-  static ConnectionSpeed = () => {
-    const { downlink } = navigator.connection;
-    return <span>~{downlink}Mbp/s</span>;
-  };
-
-  static ConnectionType = () => {
-    const { effectiveType } = navigator.connection;
-    return <span>{effectiveType.toUpperCase()}</span>;
-  };
   state = {
     isOnline: navigator.onLine
   };
