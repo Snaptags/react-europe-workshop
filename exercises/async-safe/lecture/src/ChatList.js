@@ -2,6 +2,26 @@ import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 
 export default class ChatList extends Component {
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // Only update the filtered messages if a filter
+    // actually exists...
+    if (
+      nextProps.filter &&
+      // Only filter again if the filter changed...
+      (nextProps.filter !== prevState.filter ||
+        // ...or the messages changed.
+        nextProps.messages !== prevState.messages)
+    ) {
+      return {
+          filter: nextProps.filter,
+          messages: nextProps.messages,
+        filteredMessages: filterMessages(nextProps.messages, nextProps.filter)
+      };
+    }
+      return null;
+  }
+
   listRef = null; // reference to the dom node
 
     state = {
@@ -33,22 +53,6 @@ export default class ChatList extends Component {
     if (snapshot === 0) {
       const { scrollHeight } = this.listRef;
       this.listRef.scrollTop = scrollHeight;
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // Only update the filtered messages if a filter
-    // actually exists...
-    if (
-      nextProps.filter &&
-      // Only filter again if the filter changed...
-      (nextProps.filter !== this.props.filter ||
-        // ...or the messages changed.
-        nextProps.messages !== this.props.messages)
-    ) {
-      this.setState({
-        filteredMessages: filterMessages(nextProps.messages, nextProps.filter)
-      });
     }
   }
 
