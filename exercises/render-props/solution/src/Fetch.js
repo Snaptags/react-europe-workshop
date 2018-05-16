@@ -8,7 +8,7 @@ class Fetch extends Component {
   };
   componentDidMount() {
     fetch(this.props.url)
-      .then(
+      .then(res => res.json())
       .then(data => {
         this.setState({
           data,
