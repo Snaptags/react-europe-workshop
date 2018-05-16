@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import Header from "./Header";
-import Heading from "./Heading";
-import { Provider } from "./Context";
 
 import Header from './Header';
 import Heading from './Heading';
