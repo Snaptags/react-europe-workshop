@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 const { Provider, Consumer } = createContext({
-  primaryColor: '#0984e3',
+  color: '#fd79a8',
 });
 
 export { Provider, Consumer };
