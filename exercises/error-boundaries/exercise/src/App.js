@@ -40,6 +40,7 @@ import MessageDataSource from './MessageDataSource';
 import ChatList from './ChatList';
 import ChatInput from './ChatInput';
 import ChatFilterNavbar from './ChatFilterNavbar';
+import ErrorBoundary from "./ErrorBoundary";
 import './App.css';
 
 export default class App extends Component {
@@ -106,24 +107,26 @@ export default class App extends Component {
       messageFilter,
     } = this.state;
 
-    return (
-      <div className="App">
-        <ChatFilterNavbar
-          onFilterChange={this.onMessageFilterChange}
-        />
-        <div className="container">
-          <ChatList
-            onScrollOffsetChange={this.onScrollOffsetChange}
-            filter={messageFilter}
-            messages={messages}
-          />
-          <ChatInput
-            onSubmit={this.onNewLocalMessage}
-            onChange={this.onChatInputChange}
-            value={pendingMessage}
-          />
-        </div>
-      </div>
-    );
+      return (
+          <div className="App">
+              <ChatFilterNavbar
+                  onFilterChange={this.onMessageFilterChange}
+              />
+              <div className="container">
+                  <ErrorBoundary>
+                      <ChatList
+                          onScrollOffsetChange={this.onScrollOffsetChange}
+                          filter={messageFilter}
+                          messages={messages}
+                      />
+                  </ErrorBoundary>
+                  <ChatInput
+                      onSubmit={this.onNewLocalMessage}
+                      onChange={this.onChatInputChange}
+                      value={pendingMessage}
+                  />
+              </div>
+          </div>
+      );
   }
 }
