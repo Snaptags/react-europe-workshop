@@ -3,6 +3,7 @@ import ChatMessage from "./ChatMessage";
 
 export default class ChatList extends Component {
 
+    // note: this is a static member, no access to this here!
   static getDerivedStateFromProps(nextProps, prevState) {
     // Only update the filtered messages if a filter
     // actually exists...
@@ -13,7 +14,7 @@ export default class ChatList extends Component {
         // ...or the messages changed.
         nextProps.messages !== prevState.messages)
     ) {
-      return {
+        return { // return the new state instead of calling this.setState
           filter: nextProps.filter,
           messages: nextProps.messages,
         filteredMessages: filterMessages(nextProps.messages, nextProps.filter)
@@ -39,7 +40,6 @@ export default class ChatList extends Component {
             const offset = scrollHeight - offsetHeight;
             const scrollOffset = scrollTop - offset;
             this.scrollOffset = scrollOffset;
-            this.props.onScrollOffsetChange(scrollOffset);
             return scrollOffset;
         }
         return null;
@@ -53,6 +53,7 @@ export default class ChatList extends Component {
     if (snapshot === 0) {
       const { scrollHeight } = this.listRef;
       this.listRef.scrollTop = scrollHeight;
+    this.props.onScrollOffsetChange(snapshot);
     }
   }
 
