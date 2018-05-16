@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 export default class ChatInput extends Component {
-  componentWillReceiveProps(nextProps) {
-    if (this.props.value !== nextProps.value) {
-      localStorage.setItem("pendingMessage", nextProps.value);
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      localStorage.setItem("pendingMessage", this.props.value);
     }
   }
 
