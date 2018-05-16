@@ -2,39 +2,37 @@ import React, { Component } from "react";
 import ChatMessage from "./ChatMessage";
 
 export default class ChatList extends Component {
-  listRef = null;
-  scrollOffset = null;
+  listRef = null; // reference to the dom node
 
-  state = {};
-
-  componentWillMount() {
-    this.setState({
+    state = {
       filteredMessages: this.props.filter
         ? filterMessages(this.props.messages)
         : []
-    });
-  }
+    };
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.messages.length > this.props.messages.length) {
-      // Check if the user is at the bottom of the
-      // window, or if they've scrolled up.
-      const { scrollHeight, scrollTop, offsetHeight } = this.listRef;
-      const offset = scrollHeight - offsetHeight;
-      const scrollOffset = scrollTop - offset;
-      this.scrollOffset = scrollOffset;
-      this.props.onScrollOffsetChange(scrollOffset);
+    // used to read stuff from the DOM before an update occurs
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        if (prevProps.messages.length < this.props.messages.length) {
+            // Check if the user is at the bottom of the
+            // window, or if they've scrolled up.
+            const { scrollHeight, scrollTop, offsetHeight } = this.listRef;
+            const offset = scrollHeight - offsetHeight;
+            const scrollOffset = scrollTop - offset;
+            this.scrollOffset = scrollOffset;
+            this.props.onScrollOffsetChange(scrollOffset);
+            return scrollOffset;
+        }
+        return null;
+        // returned value will be passed to componentDidUpdate automatically
     }
-  }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, snapshot) {
     // If the scroll offset was zero, the user was
     // at the bottom of the chat window. Make sure
     // to keep them at the bottom.
-    if (this.scrollOffset === 0) {
+    if (snapshot === 0) {
       const { scrollHeight } = this.listRef;
       this.listRef.scrollTop = scrollHeight;
-      this.scrollOffset = null;
     }
   }
 

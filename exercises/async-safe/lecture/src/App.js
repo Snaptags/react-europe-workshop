@@ -3,20 +3,20 @@ import React, { Component } from "react";
 import MessageDataSource from "./MessageDataSource";
 // Chat components!
 import ChatList from "./ChatList";
-import ChatInput from "./ChatInput";
+import ChatInput from "./ChatInput"; // incl. the send button
 import ChatFilterNavbar from "./ChatFilterNavbar";
-import Spinner from "./Spinner";
+import Spinner from "./Spinner"; // busy animation used while loading
 import "./App.css";
 
 export default class App extends Component {
   state = {
     loading: true,
     messages: [],
-    pendingMessage: "",
+    pendingMessage: "", // msg being typed in using the chat input
     messageFilter: ""
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this._messageRequest = MessageDataSource.getData().then(messages => {
       this.setState({ messages, loading: false });
     });
