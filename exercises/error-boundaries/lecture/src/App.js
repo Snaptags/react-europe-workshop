@@ -9,10 +9,20 @@ import './App.css';
 
 export default class App extends Component {
   state = {
+    error: null,
     messages: [],
     pendingMessage: localStorage.getItem('pendingMessage'),
     messageFilter: '',
   };
+
+    componentDidCatch(error) {
+        console.group(error.name);
+        console.log('Error!', error);
+        console.groupEnd(error.name);
+        this.setState({
+            error,
+        });
+    }
 
   // Async requests and subscriptions should be setup
   // in componentDidMount.
@@ -83,6 +93,10 @@ export default class App extends Component {
       messageFilter,
       error,
     } = this.state;
+
+      if (error !== null) {
+          return <ErrorMessage />;
+      }
 
     return (
       <div className="App">
