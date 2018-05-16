@@ -5,71 +5,33 @@ export default class ChatList extends Component {
   listRef = null;
   scrollOffset = null;
 
-  state = {};
-
-  /**
-   * FIX ME
-   *
-   * Initialzing state in componentWillMount is
-   * a bad idea. It might get called multiple times
-   * and then we'd be setting state more often than
-   * we need to.
-   *
-   * Refactor this so that the state is set when
-   * this.state is first initialized (look up!)
-   */
-  componentWillMount() {
-    this.setState({
+    state = {
       filteredMessages: this.props.filter
         ? filterMessages(this.props.messages)
         : []
-    });
-  }
+    };
 
-  /**
-   * FIX ME
-   *
-   * With async rendering there may be a delay
-   * between the "render" and "commit" phases.
-   * Since componentWillUpdate is a "render"
-   * phase lifecycle, it might have stale data.
-   *
-   * There's a new commit phase lifecycle called
-   * getSnapshotBeforeUpdate. Refactor this
-   * to use that instead.
-   */
-  componentWillUpdate(nextProps) {
-    if (nextProps.messages.length > this.props.messages.length) {
-      // Check if the user is at the bottom of the
-      // window, or if they've scrolled up.
-      const { scrollHeight, scrollTop, offsetHeight } = this.listRef;
-      const offset = scrollHeight - offsetHeight;
-      const scrollOffset = scrollTop - offset;
-      this.scrollOffset = scrollOffset;
-      /**
-       * FIX ME
-       *
-       * componentWillUpdate may be called multiple
-       * times for an update. We should only call
-       * external callbacks when we know the component
-       * has updated.
-       *
-       * Move this to the commit phase lifecycle
-       * that's called when a component updates.
-       */
-      this.props.onScrollOffsetChange(scrollOffset);
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        if (prevProps.messages.length > prevState.messages.length) {
+            // Check if the user is at the bottom of the
+            // window, or if they've scrolled up.
+            const { scrollHeight, scrollTop, offsetHeight } = this.listRef;
+            const offset = scrollHeight - offsetHeight;
+            const scrollOffset = scrollTop - offset;
+            return scrollOffset;
+        }
+        return null;
     }
-  }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, snapshot) {
     // If the scroll offset was zero, the user was
     // at the bottom of the chat window. Make sure
     // to keep them at the bottom.
-    if (this.scrollOffset === 0) {
-      const { scrollHeight } = this.listRef;
-      this.listRef.scrollTop = scrollHeight;
-      this.scrollOffset = null;
-    }
+      if (snapshot === 0) {
+          const { scrollHeight } = this.listRef;
+          this.listRef.scrollTop = scrollHeight;
+          this.props.onScrollOffsetChange(snapshot);
+      }
   }
 
   /**
