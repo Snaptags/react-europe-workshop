@@ -29,7 +29,13 @@ import "./App.css";
 // A list of images inside a container
 const ImageList = ({ images }) => (
   <div className="container">
-    {images.map(image => <img className="dog-pic" src={image} />)}
+      {images.map(image =>
+          {var img = new Image();
+              img.className = "dog-pic";
+              //img.onload = function() { alert("Height: " + this.height); };
+              img.src = image;
+              return img;}
+      )}
   </div>
 );
 
