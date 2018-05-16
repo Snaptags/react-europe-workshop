@@ -134,7 +134,7 @@ export default class App extends Component {
     // One day we might like to make some
     // optimizations when we know the user
     // isn't looking at the latest messages...
-    console.log(`Scroll offset: ${offset}px`);
+      //console.log(`Scroll offset: ${offset}px`);
   };
 
   render() {
