@@ -6,7 +6,9 @@ import "./formik-form.css";
 export class Content extends Component {
     renderSubmissions = submissions => {
         return submissions.map(
-            submission => <span style={{ fontWeight: "bold" }}>{submission.name}<br/></span>
+            submission => <span style={{ fontWeight: "bold" }}>
+                {submission.name}<br/>
+            </span>
         )
     }
     render() {
@@ -33,7 +35,7 @@ export default class FormikForm extends Component {
   // we'd also have to have several onChange handlers and, of course, a more useful submit method!
 
   render() {
-    const technologies = ["react", "formik", "graphQL", "reactNative"];
+    const technologies = ["react", "redux", "formik", "graphQL", "node", "reactNative"];
     return (
       <div className="pageWrapper">
         <div className="formWrapper">
@@ -64,6 +66,8 @@ export default class FormikForm extends Component {
                                 id={item}
                                 label={item}
                                 name={item}
+                                checked={values[{item}]}
+                                onChange={handleChange}
                             />
                             {item.replace(/^(.)/, $1 => $1.toUpperCase() )}
                         </label>
